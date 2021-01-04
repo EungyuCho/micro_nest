@@ -1,12 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Body, Controller, Logger, Post } from '@nestjs/common';
+import { MathService } from './math.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  private logger = new Logger('AppController');
+  constructor(private mathService: MathService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post('add')
+  async accumulate(@Body('data') data: number[]) {
+    console.log(data);
+    this.logger.log(`Adding ${data.toString()}`);
+    return this.mathService.accumulate(data);
   }
 }
